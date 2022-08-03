@@ -1,0 +1,18 @@
+{
+  "name": "main-vite",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "scripts": {
+    "dev": "vite"
+  },
+  "dependencies": {
+    "vue": "^3.2.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.0.1",
+    "typescript": "~4.7.4",
+    "vite": "^3.0.2",
+    "vue-tsc": "^0.38.5"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "child",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:subapp": "vite build --mode=subapp --base=/apps/app1/"
+  },
+  "dependencies": {
+    "magic-string": "^0.26.2",
+    "vue": "^3.2.13",
+    "vue-router": "^4.1.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.0.1",
+    "typescript": "~4.7.4",
+    "vite": "^3.0.2",
+    "vue-tsc": "^0.38.5"
+  }
+}

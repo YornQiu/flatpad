@@ -1,0 +1,1 @@
+import{openBlock as e,createElementBlock as r}from"/libs/vue.js";import{_ as c}from"./index.5c7c7c2a.js";const o={};function n(t,_){return e(),r("header",null,"Header")}const f=c(o,[["render",n]]);export{f as T};

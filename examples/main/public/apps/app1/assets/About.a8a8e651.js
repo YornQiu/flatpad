@@ -1,0 +1,1 @@
+import{openBlock as e,createElementBlock as t,Fragment as o,createVNode as r,createElementVNode as n}from"/libs/vue.js";import{T as a}from"./TheHeader.61a915b5.js";import"./index.5c7c7c2a.js";const c=n("div",null,"About",-1),d={__name:"About",setup(m){return(_,l)=>(e(),t(o,null,[r(a),c],64))}};export{d as default};
