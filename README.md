@@ -13,3 +13,7 @@ Reference to `/examples/child`.
 Sub apps need to export `mount` and `unmount` lifecycle functions, which will be called in main app.
 
 And sub apps should clear app states and datas when unmounting, which could release memory and stop side effects.
+
+## Notice
+* no sandbox 
+* only support single instance

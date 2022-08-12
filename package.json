@@ -2,6 +2,8 @@
   "name": "flatpad",
   "version": "0.0.1",
   "description": "A micro frontend library for esm",
+  "author": "Yorn Qiu",
+  "license": "MIT",
   "main": "lib/index.js",
   "module": "lib/index.esm.js",
   "types": "lib/index.d.ts",
@@ -11,8 +13,6 @@
   "scripts": {
     "build": "rollup -c"
   },
-  "author": "Yorn Qiu",
-  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.17.9",
     "@babel/eslint-parser": "^7.17.0",
@@ -31,6 +31,13 @@
     "rollup-plugin-terser": "^7.0.2",
     "tslib": "^2.4.0",
     "typescript": "^4.7.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YornQiu/flatpad.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YornQiu/flatpad/issues"
   },
   "eslintConfig": {
     "root": true,
