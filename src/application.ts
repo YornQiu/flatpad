@@ -2,7 +2,7 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-24 12:25:46
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-08-03 14:27:42
+ * @LastEditTime: 2022-08-10 10:16:14
  * @Description: application
  * @FilePath: /flatpad/src/application.ts
  */
@@ -86,11 +86,11 @@ export default class Application implements IApplication {
       const mountingPromise = new Promise<void>(async (resolve, reject) => {
         await this.load();
         this.onLifecycles('beforeMount');
-        const { name, root, source } = this;
+        const { root, source } = this;
 
         try {
           const rootElement = getRootElement(root);
-          await renderContent(name, rootElement, source!);
+          renderContent(rootElement, source!);
 
           this.onLifecycles('mounted');
           resolve();
@@ -116,9 +116,9 @@ export default class Application implements IApplication {
   unmount() {
     this.onLifecycles('beforeUnmount');
 
-    const { name, root } = this;
+    const { root, source } = this;
     const rootElement = getRootElement(root);
-    removeContent(name, rootElement);
+    removeContent(rootElement, source!);
 
     clearAll();
 

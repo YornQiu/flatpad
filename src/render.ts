@@ -2,7 +2,7 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-21 15:35:22
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-08-03 14:28:09
+ * @LastEditTime: 2022-08-10 10:16:10
  * @Description: render template and execute scripts
  * @FilePath: /flatpad/src/render.ts
  */
@@ -27,25 +27,24 @@ export function getRootElement(root: string): HTMLElement {
 
 /**
  * render content
- * @param {string} appName application name
  * @param {HTMLElement} rootElement root element
  * @param {object} appSource
  * @param {HTMLDivElement} appSource.template template
  * @param {HTMLScriptElement[]} appSource.script script
  */
-export async function renderContent(appName: string, rootElement: HTMLElement, { template, scripts }: AppSource) {
+export async function renderContent(rootElement: HTMLElement, { template, scripts, entryScriptSrc }: AppSource) {
   renderHtml(rootElement, template);
-  await execScripts(appName, rootElement, scripts);
+  execScripts(rootElement, scripts);
+  execEntryScriptMount(rootElement, entryScriptSrc);
 }
 
 /**
  * remove content
- * @param appName application name
  * @param rootElement root element
  */
-export function removeContent(appName: string, rootElement: HTMLElement) {
-  window.__FLATPAD_APPS__[appName].unmount();
-  rootElement.innerHTML = ''
+export function removeContent(rootElement: HTMLElement, { entryScriptSrc }: AppSource) {
+  execEntryScriptUnmount(rootElement, entryScriptSrc);
+  rootElement.innerHTML = '';
 }
 
 /**
@@ -66,41 +65,24 @@ function renderHtml(rootElement: HTMLElement, template: HTMLDivElement) {
 
 /**
  * append scripts to root element
- * @param {string} appName application name
  * @param {HTMLElement} rootElement root element
  * @param {HTMLScriptElement[]} scriptElements
  */
-function execScripts(appName: string, rootElement: HTMLElement, scriptElements: HTMLScriptElement[]) {
-  return new Promise<void>((resolve, reject) => {
-    const l = scriptElements.length;
-    let count = 0;
+function execScripts(rootElement: HTMLElement, scriptElements: HTMLScriptElement[]) {
+  // the same script won't be executed twice in browser when app is second mounted
+  // we must create a new script element to because of cache
+  for (let i = 0, l = scriptElements.length; i < l; i += 1) {
+    const scriptElement = scriptElements[i];
 
-    // the same script won't be executed twice in browser when app is second mounted
-    // we must create a new script element to because of cache
-    for (let i = 0, l = scriptElements.length; i < l; i += 1) {
-      const scriptElement = scriptElements[i];
+    const script = document.createElement('script');
+    const attrs = scriptElement.getAttributeNames();
 
-      const script = document.createElement('script');
-      const attrs = scriptElement.getAttributeNames();
-
-      for (const attr of attrs) {
-        script.setAttribute(attr, scriptElement.getAttribute(attr) as string);
-      }
-
-      script.onload = onLoadAllScripts;
-      script.onerror = () => reject()
-
-      rootElement.appendChild(script);
+    for (const attr of attrs) {
+      script.setAttribute(attr, scriptElement.getAttribute(attr) as string);
     }
 
-    function onLoadAllScripts() {
-      count++;
-      if (count === l) {
-        window.__FLATPAD_APPS__[appName].mount();
-        resolve();
-      }
-    }
-  });
+    rootElement.appendChild(script);
+  }
 }
 
 /**

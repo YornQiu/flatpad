@@ -3,12 +3,12 @@ import { join, basename } from 'path';
 /**
  * change relative path into absolute path in vite built assets
  */
-export function AbsolutePath() {
+export function buildAbsolutePath() {
   let base = '';
   let assetsDir = '';
 
   return {
-    name: 'vite:absolute-path',
+    name: 'build-absolute-path',
     apply: 'build',
     configResolved(config) {
       base = config.base;

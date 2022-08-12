@@ -2,7 +2,7 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-04 18:16:06
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-08-03 14:35:25
+ * @LastEditTime: 2022-08-10 10:53:26
  * @Description: load and extract source from application's entry file
  * @FilePath: /flatpad/src/loader.ts
  */
@@ -15,19 +15,25 @@ const appSourceCache = new Map<string, AppSource>();
 export async function loadApp(name: string, entry: string): Promise<AppSource> {
   if (appSourceCache.has(name)) return appSourceCache.get(name)!;
 
+  const origin = hasOrigin(entry) ? new URL(entry).origin : '';
+
   const source = await loadSource(entry);
-  const { template, links, scripts } = extractHtml(source);
+  const { template, links, scripts } = extractHtml(source, origin);
 
   const styles = await loadStyles(links);
   for (let i = 0, l = links.length; i < l; i += 1) {
     template.replaceChild(styles[i], links[i]);
   }
 
-  let entryScriptSrc: string = '';
-  for (const script of scripts) {
-    if (script.hasAttribute('entry')) {
-      entryScriptSrc = script.getAttribute('src')!;
-      break;
+  let entryScriptSrc = '';
+  if (scripts.length === 1) {
+    entryScriptSrc = scripts[0].getAttribute('src') || '';
+  } else {
+    for (const script of scripts) {
+      if (script.hasAttribute('entry')) {
+        entryScriptSrc = script.getAttribute('src')!;
+        break;
+      }
     }
   }
 
@@ -38,9 +44,10 @@ export async function loadApp(name: string, entry: string): Promise<AppSource> {
 /**
  * extract template, styles, scripts from html source
  * @param {string} htmlStr html string
+ * @param {string} origin origin url
  * @returns {object} template, links, scripts
  */
-function extractHtml(htmlStr: string) {
+function extractHtml(htmlStr: string, origin: string) {
   const template = document.createElement('div');
   template.innerHTML = htmlStr;
 
@@ -53,6 +60,9 @@ function extractHtml(htmlStr: string) {
 
     if (element instanceof HTMLLinkElement) {
       if (element.rel === 'stylesheet' && element.href) {
+        if (origin && !hasOrigin(element.getAttribute('href')!))
+          element.setAttribute('href', new URL(element.getAttribute('href')!, origin).href);
+
         links.push(element);
       } else {
         template.removeChild(element);
@@ -61,6 +71,8 @@ function extractHtml(htmlStr: string) {
     }
 
     if (element instanceof HTMLScriptElement) {
+      if (origin && element.src && !hasOrigin(element.getAttribute('src')!))
+        element.setAttribute('src', new URL(element.getAttribute('src')!, origin).href);
       scripts.push(element);
       template.removeChild(element);
       i--;
@@ -114,4 +126,8 @@ export function clearCache(name: string) {
   if (!name) return false;
 
   return appSourceCache.delete(name);
+}
+
+function hasOrigin(url: string) {
+  return /^https?:\/\/[\w-.]+(:\d+)?/.test(url);
 }

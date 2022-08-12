@@ -12,6 +12,4 @@ Reference to `/examples/child`.
 
 Sub apps need to export `mount` and `unmount` lifecycle functions, which will be called in main app.
 
-Currently, lifecycle functions of sub apps are set on window.
-
-In fact, they should be exported directly. The problem is rollup will remove export statements in entry script while building. And I still have no idea how to handle this properly.
+And sub apps should clear app states and datas when unmounting, which could release memory and stop side effects.
