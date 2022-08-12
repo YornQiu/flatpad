@@ -3,7 +3,7 @@
 
 ## ✨ features
 
-### build-entry-script (src/build-entry-script.js)
+### build-index-html (src/build-index-html.js)
 
 Build sub app with entry script that has `mount` and `unmount` methods exported.
 
