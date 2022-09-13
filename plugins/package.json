@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-flatpad",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Yorn Qiu",
   "description": "vite plugin for flatpad",
   "type": "module",
@@ -9,6 +9,7 @@
   "types": "index.d.ts",
   "files": [
     "dist",
+    "index.d.ts",
     "README.md"
   ],
   "scripts": {
