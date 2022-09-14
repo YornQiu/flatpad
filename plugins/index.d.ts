@@ -1,2 +1,4 @@
-export type buildIndexHtml = (options?: { index?: string, entry?: string }) => void
-export type buildAbsolutePath = () => void
+declare function buildIndexHtml(options?: { index?: string, entry?: string }) :void
+declare function buildAbsolutePath() :void
+
+export { buildIndexHtml, buildAbsolutePath }

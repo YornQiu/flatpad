@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-flatpad",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Yorn Qiu",
   "description": "vite plugin for flatpad",
   "type": "module",
