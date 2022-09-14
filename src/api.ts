@@ -2,7 +2,7 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-04 18:16:12
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-08-03 15:14:33
+ * @LastEditTime: 2022-09-14 11:34:28
  * @Description: api
  * @FilePath: /flatpad/src/api.ts
  */
@@ -91,7 +91,7 @@ export async function mountApp(appName: string) {
 
   // mount
   try {
-    history.pushState({}, '', appToMount.route);
+    history.pushState({}, '', window.location.pathname.startsWith(appToMount.route) ? window.location.pathname : appToMount.route);
     await appToMount.mount();
   } catch (error) {
     dispatchCustomEvent(Events.ErrorAppMounting, { appToMount, appToUnmount, error });
