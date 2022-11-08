@@ -2,13 +2,14 @@
  * @Author: Yorn Qiu
  * @Date: 2022-06-13 10:25:25
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-08-03 14:10:41
+ * @LastEditTime: 2022-11-07 16:37:55
  * @Description: global vars
  * @FilePath: /flatpad/src/global.ts
  */
 
 window.__FLATPAD_ENV__ = true
 window.__FLATPAD_APPS__ = {}
+window.__FLATPAD_APP_NAME__ = ''
 
 const getCurrentAppName = () => window.__FLATPAD_APP_NAME__;
 const setCurrentAppName = (name: string) => window.__FLATPAD_APP_NAME__ = name;
