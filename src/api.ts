@@ -2,7 +2,7 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-04 18:16:12
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-09-14 11:34:28
+ * @LastEditTime: 2022-11-10 11:54:11
  * @Description: api
  * @FilePath: /flatpad/src/api.ts
  */
@@ -11,7 +11,7 @@ import type { Application as IApplication, AppConfig, AppOptions } from './types
 
 import Application from './application';
 import { APP_ROOT, APP_STATUS } from './constants';
-import { throwError, dispatchCustomEvent, Events } from './utils';
+import { throwError, dispatchCustomEvent, Events, transformRegexp } from './utils';
 
 // application map
 const apps = new Map<string, IApplication>();
@@ -38,8 +38,9 @@ export function registerApplication(appConfig: AppConfig | AppConfig[], options?
 
   const root = appConfig.root || options?.root || APP_ROOT;
   const route = appConfig.route || `/${name}`;
+  const regexp = transformRegexp(route);
 
-  apps.set(name, new Application({ name, root, route, entry, prefetch }));
+  apps.set(name, new Application({ name, root, route, entry, prefetch, regexp }));
 }
 
 /**
@@ -91,7 +92,6 @@ export async function mountApp(appName: string) {
 
   // mount
   try {
-    history.pushState({}, '', window.location.pathname.startsWith(appToMount.route) ? window.location.pathname : appToMount.route);
     await appToMount.mount();
   } catch (error) {
     dispatchCustomEvent(Events.ErrorAppMounting, { appToMount, appToUnmount, error });
@@ -120,10 +120,73 @@ export async function unmountApp(appName: string) {
   }
 }
 
+/**
+ * @description: reload application, will re-fetch application's source
+ * @param {string} appName
+ */
+export async function reloadApp(appName: string) {
+  const app = apps.get(appName);
+  if (!app) throwError(`Application ${appName} has not been registered`);
+
+  // load
+  try {
+    await app?.load(true);
+  } catch (error) {
+    dispatchCustomEvent(Events.ErrorAppLoading, { error });
+    throw error;
+  }
+}
+
+/**
+ * @description: remount application, app will be mounted if it's not mounted
+ * @param {string} appName
+ * @param {boolean} reload reload application's source
+ */
+export async function remountApp(appName: string, reload?: boolean) {
+  const appToUnmount = mountedApp;
+  const appToMount = apps.get(appName);
+  if (!appToMount) throwError(`Application ${appName} has not been registered`);
+
+  // load
+  try {
+    await appToMount?.load(reload);
+  } catch (error) {
+    dispatchCustomEvent(Events.ErrorAppLoading, { appToMount, appToUnmount, error });
+    throw error;
+  }
+
+  // unmount
+  try {
+    appToUnmount?.unmount();
+  } catch (error) {
+    dispatchCustomEvent(Events.ErrorAppUnmounting, { appToMount, appToUnmount, error });
+    throw error;
+  }
+
+  // mount
+  try {
+    await appToMount.mount();
+  } catch (error) {
+    dispatchCustomEvent(Events.ErrorAppMounting, { appToMount, appToUnmount, error });
+  }
+
+  mountedApp = appToMount;
+  dispatchCustomEvent(Events.OnAppChanged, { appToMount, appToUnmount });
+}
+
 export function getApplication(appName: string): IApplication | undefined {
   return apps.get(appName);
 }
 
 export function getAllApplications(): IApplication[] {
   return Array.from(apps.values());
+}
+
+export function getMatchedApplication(pathname: string) {
+  for (const app of apps.values()) {
+    if (app.regexp.test(pathname)) {
+      return app.name;
+    }
+  }
+  return;
 }

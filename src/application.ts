@@ -2,7 +2,7 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-24 12:25:46
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-08-10 10:16:14
+ * @LastEditTime: 2022-11-10 11:46:47
  * @Description: application
  * @FilePath: /flatpad/src/application.ts
  */
@@ -26,17 +26,19 @@ export default class Application implements IApplication {
   route: string;
   entry: string;
   status: string;
+  regexp: RegExp;
   prefetch?: boolean;
   lifecycle: ApplicationLifecycle;
   private source?: AppSource;
   private loadingPromise: Promise<void> | null;
   private mountingPromise: Promise<void> | null;
 
-  constructor({ name, root, route, entry, prefetch, lifecycle }: ApplicationConstructorOptions) {
+  constructor({ name, root, route, entry, regexp, prefetch, lifecycle }: ApplicationConstructorOptions) {
     this.name = name;
     this.root = root;
     this.route = route;
     this.entry = entry;
+    this.regexp = regexp;
     this.prefetch = prefetch;
     this.lifecycle = lifecycle || {};
 
@@ -47,8 +49,9 @@ export default class Application implements IApplication {
 
   /**
    * Load application
+   * @param {boolean} force force to reload source
    */
-  load(): Promise<void> {
+  load(force?: boolean): Promise<void> {
     const { status } = this;
 
     if (status === INITED) {
@@ -58,7 +61,7 @@ export default class Application implements IApplication {
         const { name, entry } = this;
 
         try {
-          this.source = await loadApp(name, entry);
+          this.source = await loadApp(name, entry, force);
           this.onLifecycles('loaded');
           resolve();
         } catch (error) {

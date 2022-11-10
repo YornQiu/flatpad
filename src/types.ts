@@ -32,13 +32,14 @@ export interface ApplicationConstructorOptions {
   root: string;
   route: string;
   entry: string;
+  regexp: RegExp;
   prefetch?: boolean;
   lifecycle?: ApplicationLifecycle;
 }
 
 export interface Application extends ApplicationConstructorOptions {
   status: string;
-  load: () => Promise<void>;
+  load: (force?: boolean) => Promise<void>;
   mount: () => Promise<void>;
   unmount: () => void;
   destroy: () => void;

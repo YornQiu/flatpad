@@ -1,6 +1,6 @@
 {
   "name": "flatpad",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "A micro frontend library for esm",
   "author": "Yorn Qiu",
   "license": "MIT",

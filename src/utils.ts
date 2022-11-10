@@ -2,7 +2,7 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-24 11:46:03
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-08-03 14:55:55
+ * @LastEditTime: 2022-11-09 14:18:25
  * @Description: utils
  * @FilePath: /flatpad/src/utils.ts
  */
@@ -37,4 +37,26 @@ export function warn(message: string, ...args: any[]) {
 
 export function error(message: string, ...args: any[]) {
   console.error(`[${PACKAGE_NAME}] ${message}`, ...args);
+}
+
+/**
+ * transform path to regexp and extract param names from path
+ * @param {string} path
+ * @returns {RegExp}
+ */
+export function transformRegexp(path: string): RegExp {
+  const strArr = path.split(/:([^/:]+)/g);
+
+  let reg = '';
+  for (let i = 0, l = strArr.length; i < l; i += 1) {
+    const str = strArr[i];
+    if (i % 2) {
+      const result = str.match(/\((.+)\)/g);
+      reg += result || '(.+?)';
+    } else {
+      reg += str;
+    }
+  }
+
+  return new RegExp(`^${reg}`);
 }
