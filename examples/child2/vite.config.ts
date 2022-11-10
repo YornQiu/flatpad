@@ -5,21 +5,20 @@ import vue from '@vitejs/plugin-vue';
 
 import { buildIndexHtml } from 'vite-plugin-flatpad';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     //
     vue(),
     buildIndexHtml(),
   ],
-  base: '/apps/child/',
+  base: '/apps/app2/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
   server: {
-    port: 8061,
+    port: 8062,
     headers: {
       'Access-Control-Allow-Origin': '*',
     },

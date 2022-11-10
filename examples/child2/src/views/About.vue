@@ -1,9 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import TheHeader from '@/components/TheHeader.vue';
 </script>
 
 <template>
   <TheHeader />
-  <div>Home</div>
-  <img src="../assets/logo.svg" alt="" width="100">
+  <div>About</div>
 </template>
