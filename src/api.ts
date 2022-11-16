@@ -2,7 +2,7 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-04 18:16:12
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-11-10 11:54:11
+ * @LastEditTime: 2022-11-16 11:46:15
  * @Description: api
  * @FilePath: /flatpad/src/api.ts
  */
@@ -37,7 +37,7 @@ export function registerApplication(appConfig: AppConfig | AppConfig[], options?
   if (apps.has(name)) throwError(`Application ${name} has been registered`);
 
   const root = appConfig.root || options?.root || APP_ROOT;
-  const route = appConfig.route || `/${name}`;
+  const route = appConfig.route || `/${name}/`;
   const regexp = transformRegexp(route);
 
   apps.set(name, new Application({ name, root, route, entry, prefetch, regexp }));
@@ -93,6 +93,7 @@ export async function mountApp(appName: string) {
   // mount
   try {
     await appToMount.mount();
+    window.__FLATPAD_APP_NAME__ = appToMount.name;
   } catch (error) {
     dispatchCustomEvent(Events.ErrorAppMounting, { appToMount, appToUnmount, error });
   }
