@@ -2,7 +2,7 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-24 12:25:46
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-11-10 11:46:47
+ * @LastEditTime: 2022-11-18 18:13:19
  * @Description: application
  * @FilePath: /flatpad/src/application.ts
  */
@@ -65,6 +65,7 @@ export default class Application implements IApplication {
           this.onLifecycles('loaded');
           resolve();
         } catch (error) {
+          this.status = INITED
           reject(error);
         }
       });
@@ -98,6 +99,7 @@ export default class Application implements IApplication {
           this.onLifecycles('mounted');
           resolve();
         } catch (error) {
+          this.status = LOADED
           reject(error);
         }
       });
