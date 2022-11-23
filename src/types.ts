@@ -1,5 +1,5 @@
 interface CustomEventDetail {
-  appToMount: Application | null;
+  appToMount: Application;
   appToUnmount: Application | null;
 }
 

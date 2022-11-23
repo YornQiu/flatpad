@@ -2,7 +2,7 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-04 18:16:12
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-11-16 11:46:15
+ * @LastEditTime: 2022-11-23 10:06:22
  * @Description: api
  * @FilePath: /flatpad/src/api.ts
  */
@@ -76,7 +76,7 @@ export async function mountApp(appName: string) {
 
   // load
   try {
-    await appToMount?.load();
+    await appToMount.load();
   } catch (error) {
     dispatchCustomEvent(Events.ErrorAppLoading, { appToMount, appToUnmount, error });
     throw error;
