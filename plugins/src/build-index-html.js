@@ -1,4 +1,5 @@
 import { basename, dirname, resolve, join } from 'path';
+import { posix } from 'path';
 import { readFileSync, existsSync } from 'fs';
 
 /**
@@ -190,4 +191,4 @@ function incrementIndent(indent = '') {
 
 const isExternalPath = (url) => /^(https?:)?\/\/.+/.test(url);
 
-const toPublicPath = (filename, base) => (isExternalPath(filename) ? filename : join(base, filename));
+const toPublicPath = (filename, base) => (isExternalPath(filename) ? filename : posix.join(base.replace(/\\/g, '/'), filename));

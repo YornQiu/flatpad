@@ -3,7 +3,7 @@ import { fileURLToPath, URL } from 'url';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 
-import { buildIndexHtml } from 'vite-plugin-flatpad';
+import { buildIndexHtml } from '../../plugins';
 
 export default defineConfig({
   plugins: [
