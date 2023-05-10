@@ -7,12 +7,12 @@
  * @FilePath: /flatpad/src/global.ts
  */
 
-window.__FLATPAD_ENV__ = true
-window.__FLATPAD_APPS__ = {}
-window.__FLATPAD_APP_NAME__ = ''
+window.__FLATPAD_ENV__ = true;
+window.__FLATPAD_APPS__ = {};
+window.__FLATPAD_APP_NAME__ = '';
 
 const getCurrentAppName = () => window.__FLATPAD_APP_NAME__;
-const setCurrentAppName = (name: string) => window.__FLATPAD_APP_NAME__ = name;
+const setCurrentAppName = (name: string) => (window.__FLATPAD_APP_NAME__ = name);
 
 // global
 const rawWindow = Function('return window')();
@@ -31,7 +31,7 @@ const rawDocumentRemoveEventListener = rawDocument.removeEventListener;
 export default {
   getCurrentAppName,
   setCurrentAppName,
-  
+
   rawWindow,
   rawDocument,
 

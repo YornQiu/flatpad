@@ -2,7 +2,7 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-04 18:16:06
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-11-10 11:48:08
+ * @LastEditTime: 2023-05-10 11:06:03
  * @Description: load and extract source from application's entry file
  * @FilePath: /flatpad/src/loader.ts
  */
@@ -12,15 +12,14 @@ import type { AppSource } from './types';
 // Cache application's source
 const appSourceCache = new Map<string, AppSource>();
 
-
 /**
  * @description: load app source
  * @param {string} name application's name
  * @param {string} entry application's source url
  * @param {boolean} force force to reload application's source
- * @returns 
+ * @returns
  */
-export async function loadApp(name: string, entry: string, force?:boolean): Promise<AppSource> {
+export async function loadApp(name: string, entry: string, force?: boolean): Promise<AppSource> {
   if (appSourceCache.has(name) && !force) return appSourceCache.get(name)!;
 
   const origin = hasOrigin(entry) ? new URL(entry).origin : '';

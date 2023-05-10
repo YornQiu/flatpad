@@ -191,4 +191,5 @@ function incrementIndent(indent = '') {
 
 const isExternalPath = (url) => /^(https?:)?\/\/.+/.test(url);
 
-const toPublicPath = (filename, base) => (isExternalPath(filename) ? filename : posix.join(base.replace(/\\/g, '/'), filename));
+const toPublicPath = (filename, base) =>
+  isExternalPath(filename) ? filename : posix.join(base.replace(/\\/g, '/'), filename);

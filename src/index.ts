@@ -21,5 +21,5 @@ export {
 export { Events } from './utils';
 
 export function start() {
-  onRoute()
+  onRoute();
 }

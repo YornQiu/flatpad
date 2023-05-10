@@ -65,7 +65,7 @@ export default class Application implements IApplication {
           this.onLifecycles('loaded');
           resolve();
         } catch (error) {
-          this.status = INITED
+          this.status = INITED;
           reject(error);
         }
       });
@@ -99,7 +99,7 @@ export default class Application implements IApplication {
           this.onLifecycles('mounted');
           resolve();
         } catch (error) {
-          this.status = LOADED
+          this.status = LOADED;
           reject(error);
         }
       });
