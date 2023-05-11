@@ -2,9 +2,9 @@
  * @Author: Yorn Qiu
  * @Date: 2022-07-25 09:50:31
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-08-02 17:38:53
+ * @LastEditTime: 2023-05-11 09:55:29
  * @Description: window side effects
- * @FilePath: /flatpad/src/effect.ts
+ * @FilePath: /flatpad/packages/flatpad/src/effect.ts
  */
 
 import globalEnv from './global';
@@ -101,6 +101,7 @@ document.removeEventListener = function (
 
 const timeoutMap = new Map<string, Set<number>>();
 
+// @ts-ignore
 window.setTimeout = function (handler: TimerHandler, delay?: number, ...args: any[]) {
   const name = getCurrentAppName();
   const timeoutId = rawSetTimeout.call(rawWindow, handler, delay, ...args);
@@ -114,6 +115,7 @@ window.setTimeout = function (handler: TimerHandler, delay?: number, ...args: an
   return timeoutId;
 };
 
+// @ts-ignore
 window.clearTimeout = function (timeoutId?: number) {
   if (timeoutId === undefined) return;
 
@@ -129,6 +131,7 @@ window.clearTimeout = function (timeoutId?: number) {
 
 const intervalMap = new Map<string, Set<number>>();
 
+// @ts-ignore
 window.setInterval = function (handler: TimerHandler, delay?: number, ...args: any[]) {
   const name = getCurrentAppName();
   const intervalId = rawSetInterval.call(rawWindow, handler, delay, ...args);
@@ -142,6 +145,7 @@ window.setInterval = function (handler: TimerHandler, delay?: number, ...args: a
   return intervalId;
 };
 
+// @ts-ignore
 window.clearInterval = function (intervalId?: number) {
   if (intervalId === undefined) return;
 
