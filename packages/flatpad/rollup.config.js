@@ -2,7 +2,7 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-27 11:59:49
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2023-05-11 08:55:11
+ * @LastEditTime: 2023-05-11 09:49:07
  * @Description: file content
  * @FilePath: /flatpad/packages/flatpad/rollup.config.js
  */
@@ -13,7 +13,6 @@ import typescript from '@rollup/plugin-typescript';
 import { terser } from 'rollup-plugin-terser';
 import replace from '@rollup/plugin-replace';
 import babel from '@rollup/plugin-babel';
-import json from '@rollup/plugin-json';
 import dts from 'rollup-plugin-dts';
 
 if (existsSync('./dist')) {
@@ -62,13 +61,7 @@ export default (async () => [
         banner,
       },
     ],
-    plugins: [
-      nodeResolve({ extensions: ['.js', '.ts'] }),
-      babel(babelOpts),
-      replace(replaceOpts),
-      typescript(),
-      json(),
-    ],
+    plugins: [nodeResolve({ extensions: ['.js', '.ts'] }), babel(babelOpts), replace(replaceOpts), typescript()],
   },
   // prod
   {
@@ -101,7 +94,6 @@ export default (async () => [
       replace(replaceOpts),
       typescript(),
       terser(),
-      json(),
     ],
   },
   // dts

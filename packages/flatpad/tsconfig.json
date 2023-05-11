@@ -5,7 +5,7 @@
     "lib": ["esnext", "dom"],
     "declaration": true,
     "outDir": "types",
-    "rootDir": ".",
+    "rootDir": "src",
     "downlevelIteration": true,
     "strict": true,
     "noImplicitAny": true,
