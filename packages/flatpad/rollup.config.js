@@ -2,24 +2,26 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-27 11:59:49
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-08-03 15:37:43
+ * @LastEditTime: 2023-05-11 08:55:11
  * @Description: file content
- * @FilePath: /flatpad/rollup.config.js
+ * @FilePath: /flatpad/packages/flatpad/rollup.config.js
  */
-import { join } from 'path';
-import { rmSync, mkdirSync, existsSync } from 'fs';
+
+import { rmSync, mkdirSync, existsSync, readFileSync } from 'fs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import { terser } from 'rollup-plugin-terser';
 import replace from '@rollup/plugin-replace';
 import babel from '@rollup/plugin-babel';
+import json from '@rollup/plugin-json';
 import dts from 'rollup-plugin-dts';
-import pkg from './package.json';
 
-if (existsSync('./lib')) {
-  rmSync('./lib', { recursive: true });
+if (existsSync('./dist')) {
+  rmSync('./dist', { recursive: true });
 }
-mkdirSync('./lib');
+mkdirSync('./dist');
+
+const pkg = JSON.parse(readFileSync('./package.json'));
 
 const banner = `/*!
  * ${pkg.name} v${pkg.version}
@@ -40,22 +42,22 @@ const babelOpts = {
 export default (async () => [
   // dev
   {
-    input: 'src/index.ts',
+    input: './src/index.ts',
     output: [
       {
-        file: `./lib/index.js`,
+        file: `./dist/index.js`,
         format: 'cjs',
         name: pkg.name,
         banner,
       },
       {
-        file: `./lib/index.umd.js`,
+        file: `./dist/index.umd.js`,
         format: 'umd',
         name: pkg.name,
         banner,
       },
       {
-        file: `./lib/index.esm.js`,
+        file: `./dist/index.esm.js`,
         format: 'esm',
         banner,
       },
@@ -64,29 +66,30 @@ export default (async () => [
       nodeResolve({ extensions: ['.js', '.ts'] }),
       babel(babelOpts),
       replace(replaceOpts),
-      typescript({ tsconfig: join(__dirname, 'tsconfig.json') }),
+      typescript(),
+      json(),
     ],
   },
   // prod
   {
-    input: 'src/index.ts',
+    input: './src/index.ts',
     output: [
       {
-        file: `./lib/index.min.js`,
+        file: `./dist/index.min.js`,
         format: 'cjs',
         name: pkg.name,
         sourcemap: true,
         banner,
       },
       {
-        file: `./lib/index.umd.min.js`,
+        file: `./dist/index.umd.min.js`,
         format: 'umd',
         name: pkg.name,
         sourcemap: true,
         banner,
       },
       {
-        file: `./lib/index.esm.min.js`,
+        file: `./dist/index.esm.min.js`,
         format: 'esm',
         sourcemap: true,
         banner,
@@ -96,16 +99,17 @@ export default (async () => [
       nodeResolve({ extensions: ['.js', '.ts'] }),
       babel(babelOpts),
       replace(replaceOpts),
-      typescript({ tsconfig: join(__dirname, 'tsconfig.json') }),
+      typescript(),
       terser(),
+      json(),
     ],
   },
   // dts
   {
-    input: 'src/index.ts',
+    input: './src/index.ts',
     output: [
       {
-        file: `./lib/index.d.ts`,
+        file: `./dist/index.d.ts`,
         format: 'es',
       },
     ],

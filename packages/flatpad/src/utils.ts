@@ -2,9 +2,9 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-24 11:46:03
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-11-09 14:18:25
+ * @LastEditTime: 2023-05-10 13:51:50
  * @Description: utils
- * @FilePath: /flatpad/src/utils.ts
+ * @FilePath: /flatpad/packages/flatpad/src/utils.ts
  */
 
 import { PACKAGE_NAME } from './constants';

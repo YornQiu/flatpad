@@ -1,6 +1,13 @@
-import { basename, dirname, resolve, join } from 'path';
-import { posix } from 'path';
+import type { OutputChunk } from 'rollup';
+import type { ResolvedConfig, Plugin, HtmlTagDescriptor, ChunkMetadata } from 'vite';
+
+import { basename, dirname, resolve, join, posix } from 'path';
 import { readFileSync, existsSync } from 'fs';
+
+export interface BuildIndexHtmlOptions {
+  index?: string;
+  entry?: string;
+}
 
 /**
  * build index html
@@ -9,8 +16,8 @@ import { readFileSync, existsSync } from 'fs';
  * @param {string} options.entry  entry.js path
  * @returns
  */
-export function buildIndexHtml(options) {
-  let config;
+export function buildIndexHtml(options?: BuildIndexHtmlOptions): Plugin {
+  let config: ResolvedConfig;
 
   const index = options?.index || 'index.html';
   if (!existsSync(index)) {
@@ -51,13 +58,13 @@ export function buildIndexHtml(options) {
       // find entry chunk
       const chunk = Object.values(bundle).find(
         (chunk) => chunk.type === 'chunk' && chunk.isEntry && chunk.facadeModuleId === entryFullPath
-      );
+      ) as OutputChunk;
 
       // remove entry script
       let result = removeEntryScript(html, indexFullPath, entryFullPath);
 
       // get entry script
-      const scriptTag = {
+      const scriptTag: HtmlTagDescriptor = {
         tag: 'script',
         attrs: {
           type: 'module',
@@ -97,7 +104,7 @@ export function buildIndexHtml(options) {
  * @param {string} entryFullPath
  * @returns {string}
  */
-const removeEntryScript = (html, indexFullPath, entryFullPath) => {
+function removeEntryScript(html: string, indexFullPath: string, entryFullPath: string) {
   const scriptRE = /<script\s[^>]*src=['"]?([^'"]*)['"]?[^>]*>*<\/script>/;
   const scripts = html.match(new RegExp(scriptRE, 'g'));
 
@@ -105,17 +112,17 @@ const removeEntryScript = (html, indexFullPath, entryFullPath) => {
     const indexDir = dirname(indexFullPath);
 
     scripts.forEach((script) => {
-      const [, src] = script.match(scriptRE);
+      const [, src] = script.match(scriptRE) as RegExpMatchArray;
       if (join(indexDir, src) === entryFullPath) html = html.replace(script, '');
     });
   }
 
   return html;
-};
+}
 
-function getCssTagsForChunk(chunk, base) {
-  const tags = [];
-  chunk.viteMetadata.importedCss.forEach((file) => {
+function getCssTagsForChunk(chunk: OutputChunk, base: string) {
+  const tags: HtmlTagDescriptor[] = [];
+  chunk.viteMetadata!.importedCss.forEach((file) => {
     tags.push({
       tag: 'link',
       attrs: {
@@ -132,7 +139,7 @@ function getCssTagsForChunk(chunk, base) {
 const headInjectRE = /([ \t]*)<\/head>/i;
 const bodyInjectRE = /([ \t]*)<\/body>/i;
 
-function injectToHtml(html, assets) {
+function injectToHtml(html: string, assets: HtmlTagDescriptor[]) {
   let result = html;
   const hasHeadElement = headInjectRE.test(html);
   const hasBodyElement = bodyInjectRE.test(html);
@@ -154,7 +161,7 @@ function injectToHtml(html, assets) {
 
 const unaryTags = new Set(['link', 'meta', 'base']);
 
-function serializeTag({ tag, attrs, children }, indent = '') {
+function serializeTag({ tag, attrs, children }: HtmlTagDescriptor, indent = ''): string {
   if (unaryTags.has(tag)) {
     return `${indent}<${tag}${serializeAttrs(attrs)}>\n`;
   } else {
@@ -162,7 +169,7 @@ function serializeTag({ tag, attrs, children }, indent = '') {
   }
 }
 
-function serializeTags(tags, indent = '') {
+function serializeTags(tags?: string | HtmlTagDescriptor[], indent = ''): string {
   if (typeof tags === 'string') {
     return tags;
   } else if (tags && tags.length) {
@@ -171,7 +178,7 @@ function serializeTags(tags, indent = '') {
   return '';
 }
 
-function serializeAttrs(attrs) {
+function serializeAttrs(attrs: HtmlTagDescriptor['attrs']) {
   let res = '';
   for (const key in attrs) {
     if (typeof attrs[key] === 'boolean') {
@@ -189,7 +196,7 @@ function incrementIndent(indent = '') {
 
 // const normalizePath = (path) => posix.normalize(path.split(sep).join('/'));
 
-const isExternalPath = (url) => /^(https?:)?\/\/.+/.test(url);
+const isExternalPath = (url: string) => /^(https?:)?\/\/.+/.test(url);
 
-const toPublicPath = (filename, base) =>
+const toPublicPath = (filename: string, base: string) =>
   isExternalPath(filename) ? filename : posix.join(base.replace(/\\/g, '/'), filename);

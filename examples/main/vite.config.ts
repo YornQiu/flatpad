@@ -10,7 +10,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      flatpad: resolve(__dirname, '../../src/index.ts'),
+      flatpad: resolve(__dirname, '../../packages/flatpad'),
     },
   },
   server: {

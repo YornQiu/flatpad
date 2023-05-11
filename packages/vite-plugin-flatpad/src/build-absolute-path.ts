@@ -1,9 +1,11 @@
+import type { Plugin } from 'vite';
+
 import { join, basename } from 'path';
 
 /**
  * change relative path into absolute path in vite built assets
  */
-export function buildAbsolutePath() {
+export function buildAbsolutePath(): Plugin {
   let base = '';
   let assetsDir = '';
 

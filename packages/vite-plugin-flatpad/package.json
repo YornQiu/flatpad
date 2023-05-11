@@ -3,20 +3,21 @@
   "version": "0.0.4",
   "author": "Yorn Qiu",
   "description": "vite plugin for flatpad",
+  "license": "MIT",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
-  "types": "index.d.ts",
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "micro frontend",
+    "vite plugin"
+  ],
   "files": [
-    "dist",
-    "index.d.ts",
-    "README.md"
+    "dist"
   ],
   "scripts": {
-    "build": "pnpm unbuild"
-  },
-  "peerDependencies": {
-    "vite": ">=2.0.0"
+    "build": "rollup -c",
+    "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "repository": {
     "type": "git",
