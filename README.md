@@ -108,3 +108,7 @@ Flatpad has below disadvantages:
 
 - no sandbox - Sandbox realized by **with** and **eval** is not suitable for esm.
 - only support single instance - For lack of sandbox, routers may produce unexpected effects when there are multiple instances.
+
+# License
+
+[MIT](./LICENSE)
