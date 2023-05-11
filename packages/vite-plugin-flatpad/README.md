@@ -1,9 +1,10 @@
-# vite plugin for flatpad
+# vite-plugin-flatpad
 
+A plugin for flatpad working with vite to build micro-frontend apps.
 
 ## ✨ features
 
-### build-index-html (src/build-index-html.js)
+### 1️⃣ build-index-html (src/build-index-html.ts)
 
 Build sub app with entry script that has `mount` and `unmount` methods exported.
 
@@ -11,6 +12,6 @@ In original vite bundle, the `export` statement in `main.js` will be removed whi
 
 This plugin will change the `input` of rollup to `src/main.js` instead of `index.html`, then regenerate the `index.html` with the sub app's entry script.
 
-### build-absolute-path (src/build-absolute-path.js)
+### 2️⃣ build-absolute-path (src/build-absolute-path.ts)
 
 The path of `import` statement in `assets/*.js` is always relative after bundling. This plugin will change the relative path to absolute path.
