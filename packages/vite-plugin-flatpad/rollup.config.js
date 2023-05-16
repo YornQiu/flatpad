@@ -2,7 +2,7 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-27 11:59:49
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2023-05-11 09:08:36
+ * @LastEditTime: 2023-05-16 13:38:07
  * @Description: file content
  * @FilePath: /flatpad/packages/vite-plugin-flatpad/rollup.config.js
  */
@@ -43,13 +43,13 @@ export default (async () => [
     input: 'src/index.ts',
     output: [
       {
-        file: `./dist/index.js`,
+        file: `./dist/index.cjs`,
         format: 'cjs',
         name: pkg.name,
         banner,
       },
       {
-        file: `./dist/index.esm.js`,
+        file: `./dist/index.mjs`,
         format: 'esm',
         banner,
       },
