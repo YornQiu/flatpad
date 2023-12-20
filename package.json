@@ -1,17 +1,10 @@
 {
   "name": "flatpad",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A micro frontend library for esm",
   "author": "Yorn Qiu",
   "license": "MIT",
-  "main": "lib/index.js",
-  "module": "lib/index.esm.js",
-  "types": "lib/index.d.ts",
-  "files": [
-    "lib"
-  ],
   "scripts": {
-    "build": "rollup -c",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
