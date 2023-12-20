@@ -39,6 +39,7 @@
     "tslib": "^2.5.0",
     "typescript": "^5.0.4",
     "vite": "^4.3.5",
+    "vite-plugin-flatpad": "workspace:^",
     "vue-tsc": "^0.38.9"
   },
   "repository": {

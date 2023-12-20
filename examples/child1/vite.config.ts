@@ -3,7 +3,7 @@ import { fileURLToPath, URL } from 'url';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 
-import { buildIndexHtml } from '../../plugins';
+import { buildIndexHtml } from 'vite-plugin-flatpad';
 
 export default defineConfig({
   plugins: [
@@ -18,7 +18,7 @@ export default defineConfig({
     },
   },
   server: {
-    port: 8061,
+    port: 9091,
     headers: {
       'Access-Control-Allow-Origin': '*',
     },

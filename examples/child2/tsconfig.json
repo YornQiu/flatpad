@@ -5,8 +5,7 @@
     "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "vite-plugin-flatpad": ["../../packages/vite-plugin-flatpad"]
+      "@/*": ["./src/*"]
     },
     "ignoreDeprecations": "5.0"
   }

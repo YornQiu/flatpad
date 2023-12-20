@@ -2,9 +2,9 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-27 11:59:49
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2023-05-11 09:49:07
- * @Description: file content
+ * @LastEditTime: 2023-12-19 15:15:45
  * @FilePath: /flatpad/packages/flatpad/rollup.config.js
+ * @Description: file content
  */
 
 import { rmSync, mkdirSync, existsSync, readFileSync } from 'fs';
