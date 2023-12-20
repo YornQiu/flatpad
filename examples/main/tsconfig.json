@@ -5,8 +5,7 @@
     "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "flatpad": ["../../packages/flatpad"]
+      "@/*": ["./src/*"]
     },
     "ignoreDeprecations": "5.0"
   }

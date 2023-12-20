@@ -2,11 +2,11 @@
  * @Author: Yorn Qiu
  * @Date: 2022-11-07 18:08:40
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2023-12-20 14:42:18
+ * @LastEditTime: 2023-12-20 14:44:28
  * @FilePath: /flatpad/packages/flatpad/src/router.ts
  * @Description: router
  */
-import { getMatchedApplication, mountApp, getAllApplications } from './api';
+import { getMatchedApplication, mountApp } from './api';
 
 const rawPushState = window.history.pushState;
 const rawReplaceState = window.history.replaceState;
