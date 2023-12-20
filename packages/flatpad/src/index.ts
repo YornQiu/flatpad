@@ -2,9 +2,9 @@
  * @Author: Yorn Qiu
  * @Date: 2022-07-25 15:00:10
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-11-16 11:48:27
+ * @LastEditTime: 2023-12-20 14:19:21
+ * @FilePath: /flatpad/packages/flatpad/src/index.ts
  * @Description: index
- * @FilePath: /flatpad/src/index.ts
  */
 import { onRoute } from './router';
 

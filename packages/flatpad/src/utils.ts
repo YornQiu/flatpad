@@ -2,9 +2,9 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-24 11:46:03
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2023-05-10 13:51:50
- * @Description: utils
+ * @LastEditTime: 2023-12-20 14:37:57
  * @FilePath: /flatpad/packages/flatpad/src/utils.ts
+ * @Description: utils
  */
 
 import { PACKAGE_NAME } from './constants';
@@ -40,6 +40,19 @@ export function error(message: string, ...args: any[]) {
 }
 
 /**
+ * parse route, add '/' to the beginning and remove '/' from the end
+ * @param {string} route
+ * @returns {string}
+ */
+export function parseRoute(route: string): string {
+  if (!route) return '';
+  if (!route.startsWith('/')) route = `/${route}`;
+  if (route.endsWith('/')) route = route.slice(0, -1);
+
+  return route;
+}
+
+/**
  * transform path to regexp and extract param names from path
  * @param {string} path
  * @returns {RegExp}
@@ -58,5 +71,5 @@ export function transformRegexp(path: string): RegExp {
     }
   }
 
-  return new RegExp(`^${reg}`);
+  return new RegExp(`^${reg}(?:\/[^\/]+)*\/?$`);
 }

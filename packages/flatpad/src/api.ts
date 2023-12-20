@@ -2,16 +2,16 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-04 18:16:12
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-11-23 10:06:22
+ * @LastEditTime: 2023-12-19 16:04:35
+ * @FilePath: /flatpad/packages/flatpad/src/api.ts
  * @Description: api
- * @FilePath: /flatpad/src/api.ts
  */
 
 import type { Application as IApplication, AppConfig, AppOptions } from './types';
 
 import Application from './application';
 import { APP_ROOT, APP_STATUS } from './constants';
-import { throwError, dispatchCustomEvent, Events, transformRegexp } from './utils';
+import { throwError, dispatchCustomEvent, Events, transformRegexp, parseRoute } from './utils';
 
 // application map
 const apps = new Map<string, IApplication>();
@@ -37,7 +37,7 @@ export function registerApplication(appConfig: AppConfig | AppConfig[], options?
   if (apps.has(name)) throwError(`Application ${name} has been registered`);
 
   const root = appConfig.root || options?.root || APP_ROOT;
-  const route = appConfig.route || `/${name}/`;
+  const route = parseRoute(appConfig.route || name); // if no route, use `/${name}` as route
   const regexp = transformRegexp(route);
 
   apps.set(name, new Application({ name, root, route, entry, prefetch, regexp }));

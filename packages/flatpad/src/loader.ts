@@ -2,9 +2,9 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-04 18:16:06
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2023-05-10 11:06:03
+ * @LastEditTime: 2023-12-19 15:16:24
+ * @FilePath: /flatpad/packages/flatpad/src/loader.ts
  * @Description: load and extract source from application's entry file
- * @FilePath: /flatpad/src/loader.ts
  */
 
 import type { AppSource } from './types';

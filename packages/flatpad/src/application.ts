@@ -2,9 +2,9 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-24 12:25:46
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-11-18 18:13:19
+ * @LastEditTime: 2023-12-19 15:16:04
+ * @FilePath: /flatpad/packages/flatpad/src/application.ts
  * @Description: application
- * @FilePath: /flatpad/src/application.ts
  */
 import type {
   Application as IApplication,

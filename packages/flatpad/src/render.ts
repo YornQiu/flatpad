@@ -2,9 +2,9 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-21 15:35:22
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-08-10 10:16:10
+ * @LastEditTime: 2023-12-19 15:16:31
+ * @FilePath: /flatpad/packages/flatpad/src/render.ts
  * @Description: render template and execute scripts
- * @FilePath: /flatpad/src/render.ts
  */
 
 import type { AppSource } from './types';

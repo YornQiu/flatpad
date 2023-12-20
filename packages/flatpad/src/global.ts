@@ -2,9 +2,9 @@
  * @Author: Yorn Qiu
  * @Date: 2022-06-13 10:25:25
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2022-11-07 16:37:55
+ * @LastEditTime: 2023-12-19 15:16:16
+ * @FilePath: /flatpad/packages/flatpad/src/global.ts
  * @Description: global vars
- * @FilePath: /flatpad/src/global.ts
  */
 
 window.__FLATPAD_ENV__ = true;

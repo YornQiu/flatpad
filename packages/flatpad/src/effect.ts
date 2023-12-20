@@ -2,9 +2,9 @@
  * @Author: Yorn Qiu
  * @Date: 2022-07-25 09:50:31
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2023-05-11 09:55:29
- * @Description: window side effects
+ * @LastEditTime: 2023-12-19 15:16:11
  * @FilePath: /flatpad/packages/flatpad/src/effect.ts
+ * @Description: window side effects
  */
 
 import globalEnv from './global';
