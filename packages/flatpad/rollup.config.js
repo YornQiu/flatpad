@@ -2,7 +2,7 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-27 11:59:49
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2023-12-19 15:15:45
+ * @LastEditTime: 2025-11-12 11:23:27
  * @FilePath: /flatpad/packages/flatpad/rollup.config.js
  * @Description: file content
  */
@@ -10,8 +10,8 @@
 import { rmSync, mkdirSync, existsSync, readFileSync } from 'fs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
-import { terser } from 'rollup-plugin-terser';
 import replace from '@rollup/plugin-replace';
+import terser from '@rollup/plugin-terser';
 import babel from '@rollup/plugin-babel';
 import dts from 'rollup-plugin-dts';
 

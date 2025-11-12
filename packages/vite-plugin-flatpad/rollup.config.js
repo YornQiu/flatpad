@@ -2,9 +2,9 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-27 11:59:49
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2023-05-16 13:38:07
- * @Description: file content
+ * @LastEditTime: 2025-11-12 11:44:24
  * @FilePath: /flatpad/packages/vite-plugin-flatpad/rollup.config.js
+ * @Description: file content
  */
 
 import { rmSync, mkdirSync, existsSync, readFileSync } from 'fs';
