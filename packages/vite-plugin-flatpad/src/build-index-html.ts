@@ -1,8 +1,9 @@
 import type { OutputChunk } from 'rollup';
-import type { ResolvedConfig, Plugin, HtmlTagDescriptor, ChunkMetadata } from 'vite';
+import type { ResolvedConfig, Plugin, HtmlTagDescriptor } from 'vite';
 
-import { basename, dirname, resolve, join, posix } from 'path';
-import { readFileSync, existsSync } from 'fs';
+import { basename, dirname, resolve, join } from 'node:path';
+import { readFileSync, existsSync } from 'node:fs';
+import { normalizePath, toPublicPath } from './utils';
 
 export interface BuildIndexHtmlOptions {
   index?: string;
@@ -57,7 +58,11 @@ export function buildIndexHtml(options?: BuildIndexHtmlOptions): Plugin {
 
       // find entry chunk
       const chunk = Object.values(bundle).find(
-        (chunk) => chunk.type === 'chunk' && chunk.isEntry && chunk.facadeModuleId === entryFullPath
+        (chunk) =>
+          chunk.type === 'chunk' &&
+          chunk.isEntry &&
+          chunk.facadeModuleId &&
+          normalizePath(chunk.facadeModuleId) === normalizePath(entryFullPath)
       ) as OutputChunk;
 
       // remove entry script
@@ -161,6 +166,10 @@ function injectToHtml(html: string, assets: HtmlTagDescriptor[]) {
 
 const unaryTags = new Set(['link', 'meta', 'base']);
 
+function incrementIndent(indent = '') {
+  return `${indent}${indent[0] === '\t' ? '\t' : '  '}`;
+}
+
 function serializeTag({ tag, attrs, children }: HtmlTagDescriptor, indent = ''): string {
   if (unaryTags.has(tag)) {
     return `${indent}<${tag}${serializeAttrs(attrs)}>\n`;
@@ -169,7 +178,7 @@ function serializeTag({ tag, attrs, children }: HtmlTagDescriptor, indent = ''):
   }
 }
 
-function serializeTags(tags?: string | HtmlTagDescriptor[], indent = ''): string {
+function serializeTags(tags?: HtmlTagDescriptor['children'], indent = ''): string {
   if (typeof tags === 'string') {
     return tags;
   } else if (tags && tags.length) {
@@ -178,7 +187,7 @@ function serializeTags(tags?: string | HtmlTagDescriptor[], indent = ''): string
   return '';
 }
 
-function serializeAttrs(attrs: HtmlTagDescriptor['attrs']) {
+function serializeAttrs(attrs: HtmlTagDescriptor['attrs']): string {
   let res = '';
   for (const key in attrs) {
     if (typeof attrs[key] === 'boolean') {
@@ -189,14 +198,3 @@ function serializeAttrs(attrs: HtmlTagDescriptor['attrs']) {
   }
   return res;
 }
-
-function incrementIndent(indent = '') {
-  return `${indent}${indent[0] === '\t' ? '\t' : '  '}`;
-}
-
-// const normalizePath = (path) => posix.normalize(path.split(sep).join('/'));
-
-const isExternalPath = (url: string) => /^(https?:)?\/\/.+/.test(url);
-
-const toPublicPath = (filename: string, base: string) =>
-  isExternalPath(filename) ? filename : posix.join(base.replace(/\\/g, '/'), filename);

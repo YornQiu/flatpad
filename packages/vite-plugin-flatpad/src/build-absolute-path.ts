@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite';
 
-import { join, basename } from 'path';
+import { join, basename } from 'node:path';
 
 /**
  * change relative path into absolute path in vite built assets
