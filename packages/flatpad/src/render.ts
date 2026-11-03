@@ -2,7 +2,7 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-21 15:35:22
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2023-12-19 15:16:31
+ * @LastEditTime: 2026-11-03 09:57:43
  * @FilePath: /flatpad/packages/flatpad/src/render.ts
  * @Description: render template and execute scripts
  */
@@ -59,7 +59,7 @@ function renderHtml(rootElement: HTMLElement, template: HTMLDivElement) {
 
   // clear then append
   rootElement.innerHTML = '';
-  Array.from(node.childNodes).forEach((node) => fragment.appendChild(node));
+  Array.from(node.childNodes).forEach((child) => fragment.appendChild(child));
   rootElement.appendChild(fragment);
 }
 

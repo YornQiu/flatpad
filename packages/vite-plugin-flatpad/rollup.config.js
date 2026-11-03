@@ -2,16 +2,14 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-27 11:59:49
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2025-11-12 11:44:24
+ * @LastEditTime: 2026-11-03 09:24:09
  * @FilePath: /flatpad/packages/vite-plugin-flatpad/rollup.config.js
- * @Description: file content
+ * @Description: rollup config
  */
 
-import { rmSync, mkdirSync, existsSync, readFileSync } from 'fs';
+import { rmSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
-import replace from '@rollup/plugin-replace';
-import babel from '@rollup/plugin-babel';
 import dts from 'rollup-plugin-dts';
 
 if (existsSync('./dist')) {
@@ -27,49 +25,35 @@ const banner = `/*!
  * @license ${pkg.license}
  */`;
 
-const replaceOpts = {
-  'process.env.BABEL_ENV': null,
-  preventAssignment: true,
-};
+const external = ['vite', /^node:/];
 
-const babelOpts = {
-  babelHelpers: 'bundled',
-  exclude: 'node_modules/**',
-};
-
-export default (async () => [
-  // dev
+export default [
   {
     input: 'src/index.ts',
+    external,
     output: [
       {
-        file: `./dist/index.cjs`,
+        file: './dist/index.cjs',
         format: 'cjs',
-        name: pkg.name,
         banner,
       },
       {
-        file: `./dist/index.mjs`,
+        file: './dist/index.mjs',
         format: 'esm',
         banner,
       },
     ],
-    plugins: [
-      nodeResolve({ extensions: ['.js', '.ts'] }),
-      babel(babelOpts),
-      replace(replaceOpts),
-      typescript({ declaration: false }),
-    ],
+    plugins: [nodeResolve({ extensions: ['.js', '.ts'] }), typescript({ declaration: false })],
   },
-  // dts
   {
     input: 'src/index.ts',
+    external,
     output: [
       {
-        file: `./dist/index.d.ts`,
+        file: './dist/index.d.ts',
         format: 'es',
       },
     ],
     plugins: [dts()],
   },
-])();
+];

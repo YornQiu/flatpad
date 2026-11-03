@@ -31,7 +31,7 @@ const eventListenerMap = new Map<string, Map<string, Set<EventListenerOrEventLis
 window.addEventListener = function (
   type: string,
   listener: EventListenerOrEventListenerObject,
-  options?: boolean | AddEventListenerOptions
+  options?: boolean | AddEventListenerOptions,
 ) {
   const name = getCurrentAppName();
   const listenerMap = eventListenerMap.get(name);
@@ -52,7 +52,7 @@ window.addEventListener = function (
 window.removeEventListener = function (
   type: string,
   listener: EventListenerOrEventListenerObject,
-  options?: boolean | EventListenerOptions
+  options?: boolean | EventListenerOptions,
 ) {
   const name = getCurrentAppName();
   const listenerSet = eventListenerMap.get(name)?.get(type);
@@ -68,7 +68,7 @@ const documentEventListenerMap = new Map<string, Map<string, Set<EventListenerOr
 document.addEventListener = function (
   type: string,
   listener: EventListenerOrEventListenerObject,
-  options?: boolean | AddEventListenerOptions
+  options?: boolean | AddEventListenerOptions,
 ) {
   const name = getCurrentAppName();
   const listenerSet = documentEventListenerMap.get(name)?.get(type);
@@ -84,7 +84,7 @@ document.addEventListener = function (
 document.removeEventListener = function (
   type: string,
   listener: EventListenerOrEventListenerObject,
-  options?: boolean | EventListenerOptions
+  options?: boolean | EventListenerOptions,
 ) {
   const name = getCurrentAppName();
   const listenerSet = documentEventListenerMap.get(name)?.get(type);

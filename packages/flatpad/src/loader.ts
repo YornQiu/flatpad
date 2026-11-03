@@ -109,8 +109,8 @@ async function loadStyles(linkElements: HTMLLinkElement[]): Promise<HTMLStyleEle
         style.setAttribute('data-href', element.href);
 
         return style;
-      })
-    )
+      }),
+    ),
   );
 }
 

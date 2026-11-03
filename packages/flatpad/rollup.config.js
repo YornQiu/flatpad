@@ -2,17 +2,15 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-27 11:59:49
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2025-11-12 11:23:27
+ * @LastEditTime: 2026-11-03 09:24:12
  * @FilePath: /flatpad/packages/flatpad/rollup.config.js
- * @Description: file content
+ * @Description: rollup config
  */
 
-import { rmSync, mkdirSync, existsSync, readFileSync } from 'fs';
+import { rmSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
-import replace from '@rollup/plugin-replace';
 import terser from '@rollup/plugin-terser';
-import babel from '@rollup/plugin-babel';
 import dts from 'rollup-plugin-dts';
 
 if (existsSync('./dist')) {
@@ -28,17 +26,7 @@ const banner = `/*!
  * @license ${pkg.license}
  */`;
 
-const replaceOpts = {
-  'process.env.BABEL_ENV': null,
-  preventAssignment: true,
-};
-
-const babelOpts = {
-  babelHelpers: 'bundled',
-  exclude: 'node_modules/**',
-};
-
-export default (async () => [
+export default [
   // dev
   {
     input: './src/index.ts',
@@ -61,7 +49,7 @@ export default (async () => [
         banner,
       },
     ],
-    plugins: [nodeResolve({ extensions: ['.js', '.ts'] }), babel(babelOpts), replace(replaceOpts), typescript()],
+    plugins: [nodeResolve({ extensions: ['.js', '.ts'] }), typescript()],
   },
   // prod
   {
@@ -88,13 +76,7 @@ export default (async () => [
         banner,
       },
     ],
-    plugins: [
-      nodeResolve({ extensions: ['.js', '.ts'] }),
-      babel(babelOpts),
-      replace(replaceOpts),
-      typescript(),
-      terser(),
-    ],
+    plugins: [nodeResolve({ extensions: ['.js', '.ts'] }), typescript(), terser()],
   },
   // dts
   {
@@ -107,4 +89,4 @@ export default (async () => [
     ],
     plugins: [dts()],
   },
-])();
+];

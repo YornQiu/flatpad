@@ -2,7 +2,7 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-24 12:25:46
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2023-12-19 15:16:04
+ * @LastEditTime: 2026-11-03 09:58:55
  * @FilePath: /flatpad/packages/flatpad/src/application.ts
  * @Description: application
  */
@@ -56,18 +56,21 @@ export default class Application implements IApplication {
 
     if (status === INITED) {
       // to avoid source being loaded repeatedly when app.load() is called multiple times
-      const loadingPromise = new Promise<void>(async (resolve, reject) => {
+      const loadingPromise = new Promise<void>((resolve, reject) => {
         this.onLifecycles('beforeLoad');
         const { name, entry } = this;
 
-        try {
-          this.source = await loadApp(name, entry, force);
-          this.onLifecycles('loaded');
-          resolve();
-        } catch (error) {
-          this.status = INITED;
-          reject(error);
-        }
+        loadApp(name, entry, force).then(
+          (source) => {
+            this.source = source;
+            this.onLifecycles('loaded');
+            resolve();
+          },
+          (error) => {
+            this.status = INITED;
+            reject(error);
+          },
+        );
       });
 
       this.loadingPromise = loadingPromise;
@@ -87,21 +90,27 @@ export default class Application implements IApplication {
   mount(): Promise<void> {
     const { status } = this;
     if (status === INITED || status === LOADING || status === LOADED) {
-      const mountingPromise = new Promise<void>(async (resolve, reject) => {
-        await this.load();
-        this.onLifecycles('beforeMount');
-        const { root, source } = this;
+      const mountingPromise = new Promise<void>((resolve, reject) => {
+        this.load().then(
+          () => {
+            this.onLifecycles('beforeMount');
+            const { root, source } = this;
 
-        try {
-          const rootElement = getRootElement(root);
-          renderContent(rootElement, source!);
+            try {
+              const rootElement = getRootElement(root);
+              renderContent(rootElement, source!);
 
-          this.onLifecycles('mounted');
-          resolve();
-        } catch (error) {
-          this.status = LOADED;
-          reject(error);
-        }
+              this.onLifecycles('mounted');
+              resolve();
+            } catch (error) {
+              this.status = LOADED;
+              reject(error);
+            }
+          },
+          (error) => {
+            reject(error);
+          },
+        );
       });
 
       this.mountingPromise = mountingPromise;
@@ -148,33 +157,33 @@ export default class Application implements IApplication {
     switch (name) {
       case 'beforeLoad':
         this.status = LOADING;
-        beforeLoad && beforeLoad();
+        beforeLoad?.();
         break;
 
       case 'loaded':
         this.status = LOADED;
-        loaded && loaded();
+        loaded?.();
         break;
 
       case 'beforeMount':
         this.status = MOUNTING;
-        beforeMount && beforeMount();
+        beforeMount?.();
         break;
 
       case 'mounted':
         this.status = MOUNTED;
-        mounted && mounted();
+        mounted?.();
         break;
 
       case 'beforeUnmount':
         this.status = UNMOUNTING;
-        beforeUnmount && beforeUnmount();
+        beforeUnmount?.();
         break;
 
       case 'unmounted':
         // app status will return to LOADED after unmounted
         this.status = LOADED;
-        unmounted && unmounted();
+        unmounted?.();
         break;
       default:
         break;

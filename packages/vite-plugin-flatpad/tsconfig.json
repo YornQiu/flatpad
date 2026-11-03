@@ -3,18 +3,18 @@
     "target": "ESNext",
     "lib": ["DOM", "ESNext"],
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "declaration": true,
     "useDefineForClassFields": true,
     "strict": true,
     "skipLibCheck": true,
     "rootDir": "src",
     "outDir": "dist",
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "types": ["vite/types/metadata.d.ts"]
+    "types": ["node", "vite/types/metadata.d.ts"]
   }
 }

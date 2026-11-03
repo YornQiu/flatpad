@@ -1,16 +1,10 @@
-import { fileURLToPath, URL } from 'url';
-
+import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-
 import { buildIndexHtml } from 'vite-plugin-flatpad';
 
 export default defineConfig({
-  plugins: [
-    //
-    vue(),
-    buildIndexHtml(),
-  ],
+  plugins: [vue(), buildIndexHtml()],
   base: '/apps/app1/',
   resolve: {
     alias: {
@@ -24,11 +18,10 @@ export default defineConfig({
     },
   },
   build: {
-    rollupOptions: {
+    rolldownOptions: {
       external: ['vue'],
       output: {
         paths: {
-          // Extract public dependencies， managed by main app
           vue: '/libs/vue.js',
         },
       },

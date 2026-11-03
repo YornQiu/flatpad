@@ -1,0 +1,25 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "import"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "env": {
+    "builtin": true,
+    "browser": true,
+    "node": true,
+    "es2024": true
+  },
+  "rules": {
+    "eslint/no-underscore-dangle": [
+      "warn",
+      {
+        "allow": ["__FLATPAD_ENV__", "__FLATPAD_APPS__", "__FLATPAD_APP_NAME__"]
+      }
+    ],
+    "import/no-unassigned-import": ["warn", { "allow": ["**/*.css"] }],
+    "import/no-named-as-default": "off"
+  },
+  "ignorePatterns": ["**/dist/**", "**/node_modules/**", "**/public/**"]
+}

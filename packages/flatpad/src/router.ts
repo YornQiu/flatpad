@@ -2,7 +2,7 @@
  * @Author: Yorn Qiu
  * @Date: 2022-11-07 18:08:40
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2023-12-20 14:44:28
+ * @LastEditTime: 2026-11-03 09:57:24
  * @FilePath: /flatpad/packages/flatpad/src/router.ts
  * @Description: router
  */
@@ -41,5 +41,5 @@ export function onRoute() {
   lastPath = pathname;
   const appName = getMatchedApplication(pathname);
 
-  appName && mountApp(appName);
+  if (appName) mountApp(appName);
 }

@@ -1,5 +1,4 @@
-import type { OutputChunk } from 'rollup';
-import type { ResolvedConfig, Plugin, HtmlTagDescriptor } from 'vite';
+import type { ResolvedConfig, Plugin, HtmlTagDescriptor, Rolldown } from 'vite';
 
 import { basename, dirname, resolve, join } from 'node:path';
 import { readFileSync, existsSync } from 'node:fs';
@@ -39,10 +38,10 @@ export function buildIndexHtml(options?: BuildIndexHtmlOptions): Plugin {
     config(cfg) {
       cfg.build = {
         ...cfg.build,
-        rollupOptions: {
-          ...cfg.build?.rollupOptions,
-          input: cfg.build?.rollupOptions?.input ?? entry,
-          preserveEntrySignatures: cfg.build?.rollupOptions?.preserveEntrySignatures ?? 'allow-extension',
+        rolldownOptions: {
+          ...cfg.build?.rolldownOptions,
+          input: cfg.build?.rolldownOptions?.input ?? entry,
+          preserveEntrySignatures: cfg.build?.rolldownOptions?.preserveEntrySignatures ?? 'allow-extension',
         },
       };
 
@@ -57,13 +56,13 @@ export function buildIndexHtml(options?: BuildIndexHtmlOptions): Plugin {
       const entryFullPath = join(config.root, entry);
 
       // find entry chunk
-      const chunk = Object.values(bundle).find(
+      const entryChunk = Object.values(bundle).find(
         (chunk) =>
           chunk.type === 'chunk' &&
           chunk.isEntry &&
           chunk.facadeModuleId &&
-          normalizePath(chunk.facadeModuleId) === normalizePath(entryFullPath)
-      ) as OutputChunk;
+          normalizePath(chunk.facadeModuleId) === normalizePath(entryFullPath),
+      ) as Rolldown.OutputChunk;
 
       // remove entry script
       let result = removeEntryScript(html, indexFullPath, entryFullPath);
@@ -75,14 +74,14 @@ export function buildIndexHtml(options?: BuildIndexHtmlOptions): Plugin {
           type: 'module',
           entry: true,
           crossorigin: true,
-          src: toPublicPath(chunk.fileName, config.base),
+          src: toPublicPath(entryChunk.fileName, config.base),
         },
         injectTo: 'head',
       };
 
       // get injected css
-      const cssTags = getCssTagsForChunk(chunk, config.base);
-      chunk.imports.forEach((file) => {
+      const cssTags = getCssTagsForChunk(entryChunk, config.base);
+      entryChunk.imports.forEach((file) => {
         const importee = bundle[file];
         if (importee?.type === 'chunk') {
           cssTags.push(...getCssTagsForChunk(importee, config.base));
@@ -125,7 +124,7 @@ function removeEntryScript(html: string, indexFullPath: string, entryFullPath: s
   return html;
 }
 
-function getCssTagsForChunk(chunk: OutputChunk, base: string) {
+function getCssTagsForChunk(chunk: Rolldown.OutputChunk, base: string) {
   const tags: HtmlTagDescriptor[] = [];
   chunk.viteMetadata!.importedCss.forEach((file) => {
     tags.push({

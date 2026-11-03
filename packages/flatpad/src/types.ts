@@ -22,7 +22,7 @@ declare global {
     __FLATPAD_APPS__: { [name: string]: { mount: () => void; unmount: () => void } };
     addEventListener<K extends keyof CustomEventMap>(
       type: K,
-      listener: (this: Window, e: CustomEventMap[K]) => void
+      listener: (this: Window, e: CustomEventMap[K]) => void,
     ): void;
   }
 }

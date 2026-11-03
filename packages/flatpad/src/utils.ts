@@ -2,7 +2,7 @@
  * @Author: Yorn Qiu
  * @Date: 2022-04-24 11:46:03
  * @LastEditors: Yorn Qiu
- * @LastEditTime: 2023-12-20 14:37:57
+ * @LastEditTime: 2026-11-03 09:57:17
  * @FilePath: /flatpad/packages/flatpad/src/utils.ts
  * @Description: utils
  */
@@ -71,5 +71,5 @@ export function transformRegexp(path: string): RegExp {
     }
   }
 
-  return new RegExp(`^${reg}(?:\/[^\/]+)*\/?$`);
+  return new RegExp(`^${reg}(?:/[^/]+)*/?$`);
 }
